@@ -15,6 +15,8 @@ class EquipoController extends Controller
     public function index()
     {
         //
+        $equipos = Equipo::orderBy('id','desc')->paginate(5);
+        return view('equipo.index',compact('equipos'));
     }
 
     /**
@@ -25,6 +27,7 @@ class EquipoController extends Controller
     public function create()
     {
         //
+        return view('equipo.create');
     }
 
     /**
@@ -36,6 +39,14 @@ class EquipoController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'categoria_id'=>'categoria_id',
+            'modelo'=>'modelo',
+            'description'=>'description',
+            'fecha_adquisicion'=>'fecha_adquisicion'
+        ]);
+        Equipo::create($request->post());
+        return view('equipo.index')->with('success','Registro creado');
     }
 
     /**
@@ -47,6 +58,7 @@ class EquipoController extends Controller
     public function show(Equipo $equipo)
     {
         //
+        return view('equipo.show',compact('equipo'));
     }
 
     /**
@@ -58,6 +70,7 @@ class EquipoController extends Controller
     public function edit(Equipo $equipo)
     {
         //
+        return view('equipo.edit',compact('equipo'));
     }
 
     /**
@@ -70,6 +83,14 @@ class EquipoController extends Controller
     public function update(Request $request, Equipo $equipo)
     {
         //
+        $request->validate([
+            'categoria_id'=>'categoria_id',
+            'modelo'=>'modelo',
+            'description'=>'description',
+            'fecha_adquisicion'=>'fecha_adquisicion'
+        ]);
+        $equipo->fill($request->post())->save();
+        return to_route('equipo.index')->with('success','Registro actualizado');
     }
 
     /**
@@ -81,5 +102,7 @@ class EquipoController extends Controller
     public function destroy(Equipo $equipo)
     {
         //
+        $equipo->delete();
+        return to_route('equipo.index')->with('success','Registro eliminado');
     }
 }

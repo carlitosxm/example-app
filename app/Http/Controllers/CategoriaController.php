@@ -40,7 +40,7 @@ class CategoriaController extends Controller
     {
         //
         $request->validate([
-            'nombre' => 'nombre',
+            'nombre' => 'required',
         ]);
 
         Categoria::create($request->post());
@@ -53,7 +53,7 @@ class CategoriaController extends Controller
      * @param  \App\Models\categorias  $categorias
      * @return \Illuminate\Http\Response
      */
-    public function show(categorias $categorias)
+    public function show(categoria $categoria)
     {
         //
         return view('categoria.show',compact('categoria'));
@@ -65,7 +65,7 @@ class CategoriaController extends Controller
      * @param  \App\Models\categorias  $categorias
      * @return \Illuminate\Http\Response
      */
-    public function edit(categorias $categorias)
+    public function edit(categoria $categoria)
     {
         //
         return view('categoria.edit',compact('categoria'));
@@ -78,12 +78,12 @@ class CategoriaController extends Controller
      * @param  \App\Models\categorias  $categorias
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, categorias $categorias)
+    public function update(Request $request, categoria $categoria)
     {
         //
          $request->validate([
-            'nombre' => 'nombre'
-        ])
+            'nombre' => 'required'
+        ]);
 
         $categoria->fill($request->post())->save();
         return to_route('categoria.index')->with('success','Actualziacion correcta');
@@ -95,7 +95,7 @@ class CategoriaController extends Controller
      * @param  \App\Models\categorias  $categorias
      * @return \Illuminate\Http\Response
      */
-    public function destroy(categorias $categorias)
+    public function destroy(categoria $categoria)
     {
         //
         $categoria->delete();

@@ -9,7 +9,7 @@ class Empresa extends Model
 {
     use HasFactory;
 
-    protected $fillable ['nombre','direccion'];
+    protected $fillable = ['nombre','direccion'];
 
     public function personal(){
         return $this->HasMany(Personal::class);

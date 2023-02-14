@@ -87,7 +87,7 @@ class DepartamentoController extends Controller
         ]);
 
         $departamento->fill($request->post())->save;
-        return to_route('departamento,index')->with('success','Actualziacion correcta');
+        return to_route('departamento.index')->with('success','Actualziacion correcta');
     }
 
     /**
@@ -100,6 +100,6 @@ class DepartamentoController extends Controller
     {
         //
         $departamento->delete();
-        return to_route('departamento,index')->with('success','Se a eliminado el registro correcta');
+        return to_route('departamento.index')->with('success','Se a eliminado el registro correcta');
     }
 }
