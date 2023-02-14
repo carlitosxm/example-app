@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\orden_trabajo;
+use App\Models\Orden_trabajo;
 use Illuminate\Http\Request;
 
 class OrdenTrabajoController extends Controller
@@ -15,6 +15,8 @@ class OrdenTrabajoController extends Controller
     public function index()
     {
         //
+        $orden_trabajos = Orden_trabajo::orderBy('id','desc')->paginate(5);
+        return view('ordentrabajo.index',compact('orden_trabajos'));
     }
 
     /**
@@ -25,6 +27,7 @@ class OrdenTrabajoController extends Controller
     public function create()
     {
         //
+        return view('ordentrabajo.create');
     }
 
     /**
@@ -36,6 +39,18 @@ class OrdenTrabajoController extends Controller
     public function store(Request $request)
     {
         //
+        $request->valedate([
+            'tecnico_id'=>'tecnico_id',
+            'tipmantenimiento_id'=>'tipmantenimiento_id',
+            'equasignado_id'=>'equasignado_id',
+            'fecha_ingreso'=>'fecha_ingreso',
+            'fecha_salida'=>'fecha_salida',
+            'anomalias'=>'anomalias',
+            'trabajos'=>'trabajos',
+            'estado'=>'estado'
+        ]);
+        Order_trabajo::create($request->post());
+        return to_route('ordentrabajo.index')->with('success','Registro ingresado');
     }
 
     /**
@@ -47,6 +62,7 @@ class OrdenTrabajoController extends Controller
     public function show(orden_trabajo $orden_trabajo)
     {
         //
+        return view('ordentrabajo.show',compact($orden_trabajo));
     }
 
     /**
@@ -58,6 +74,7 @@ class OrdenTrabajoController extends Controller
     public function edit(orden_trabajo $orden_trabajo)
     {
         //
+        return view('ordentrabajo.edit',compact($orden_trabajo));
     }
 
     /**
@@ -70,6 +87,18 @@ class OrdenTrabajoController extends Controller
     public function update(Request $request, orden_trabajo $orden_trabajo)
     {
         //
+        $request->valedate([
+            'tecnico_id'=>'tecnico_id',
+            'tipmantenimiento_id'=>'tipmantenimiento_id',
+            'equasignado_id'=>'equasignado_id',
+            'fecha_ingreso'=>'fecha_ingreso',
+            'fecha_salida'=>'fecha_salida',
+            'anomalias'=>'anomalias',
+            'trabajos'=>'trabajos',
+            'estado'=>'estado'
+        ]);
+        $orden_trabajo->fill($request->post())->save();
+        return to_route('ordentrabajo.index')->with('success','Registro actualizado');
     }
 
     /**
@@ -81,5 +110,7 @@ class OrdenTrabajoController extends Controller
     public function destroy(orden_trabajo $orden_trabajo)
     {
         //
+        $orden_trabajo->delete();
+        return to_route('ordentrabajo.index')->with('success','Registro eliminado');
     }
 }

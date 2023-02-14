@@ -15,6 +15,8 @@ class PersonalController extends Controller
     public function index()
     {
         //
+        $personals=Personal::orderBy('id','desc')->paginate(5);
+        return view('personal.index',compact('personals'));
     }
 
     /**
@@ -25,6 +27,7 @@ class PersonalController extends Controller
     public function create()
     {
         //
+        return view('personal.create');
     }
 
     /**
@@ -36,6 +39,18 @@ class PersonalController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'departamento_id'=>'required',
+            'empresa_id'=>'required',
+            'nombre'=>'required',
+            'apellido'=>'required'
+        ]);
+
+        Personal::create($request->post());
+
+        return to_route('personal.index')->with('success','Registro creado.');
+
+
     }
 
     /**
@@ -47,6 +62,7 @@ class PersonalController extends Controller
     public function show(Personal $personal)
     {
         //
+        return view('personal.show',compact('personal'));
     }
 
     /**
@@ -58,6 +74,7 @@ class PersonalController extends Controller
     public function edit(Personal $personal)
     {
         //
+        return view('edit.show',compact('personal'));
     }
 
     /**
@@ -70,6 +87,16 @@ class PersonalController extends Controller
     public function update(Request $request, Personal $personal)
     {
         //
+        $request->validate([
+            'departamento_id'=>'required',
+            'empresa_id'=>'required',
+            'nombre'=>'required',
+            'apellido'=>'required'
+        ]);
+
+        $personal->fill($request->post())->save();
+
+        return to_route('personal.index')->with('success','Registro actualizado.');
     }
 
     /**
@@ -81,5 +108,8 @@ class PersonalController extends Controller
     public function destroy(Personal $personal)
     {
         //
+        $empleado->delete();
+        return redirect()->route('empleado.index')->with('success','Registro eliminado.');
+
     }
 }

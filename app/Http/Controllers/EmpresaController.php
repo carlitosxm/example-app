@@ -16,7 +16,7 @@ class EmpresaController extends Controller
     {
         //
         $empresas=Empresa::orderBy('id','desc')->paginate(5);
-        return view('empresa,index',compact('empresas'));
+        return view('empresa.index',compact('empresas'));
     }
 
     /**
@@ -27,7 +27,7 @@ class EmpresaController extends Controller
     public function create()
     {
         //
-        return view('empresa,create',compact('empresa'));
+        return view('empresa.create');
 
     }
 
@@ -45,7 +45,7 @@ class EmpresaController extends Controller
         ]);
 
         Empresa::create($request->post());
-        return to_route('empresa,index')->with('success','Registro creado');
+        return to_route('empresa.index')->with('success','Registro creado');
     }
 
     /**
@@ -57,7 +57,7 @@ class EmpresaController extends Controller
     public function show(Empresa $empresa)
     {
         //
-        return view('empresa,show',compact('empresa'));
+        return view('empresa.show',compact('empresa'));
     }
 
     /**
@@ -69,7 +69,7 @@ class EmpresaController extends Controller
     public function edit(Empresa $empresa)
     {
         //
-        return view('empresa,edit',compact('empresa'));
+        return view('empresa.edit',compact('empresa'));
     }
 
     /**
@@ -86,9 +86,8 @@ class EmpresaController extends Controller
             'nombre'=>'nombre'
         ]);
 
-        Empresa::create($request->post());
-        return route_to('empresa,index')->with('success','Registro actualizado');
-    }
+        $empresa->fill($request->post())->save;
+        return route_to('empresa.index')->with('success','Registro actualizado');
     }
 
     /**
@@ -101,6 +100,6 @@ class EmpresaController extends Controller
     {
         //
         $empresa->delete();
-        return to_route('empresa,index')->with('success','Registro eliminado');
+        return to_route('empresa.index')->with('success','Registro eliminado');
     }
 }

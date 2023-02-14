@@ -15,6 +15,8 @@ class TipomantenimientoController extends Controller
     public function index()
     {
         //
+        $tipomantenimientos=Tipomantenimiento::orderBy('id','desc')->paginate(5);
+        return view('tipomantenimiento.index',compact('tipomantenimientos'));
     }
 
     /**
@@ -25,6 +27,7 @@ class TipomantenimientoController extends Controller
     public function create()
     {
         //
+        return view('tipomantenimiento.create');
     }
 
     /**
@@ -36,6 +39,11 @@ class TipomantenimientoController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'nombre'=>'required'
+        ]);
+        Tipomantenimiento::create($request->post());
+        return to_route('tipomantenimiento.index')->with('success','Registro creado.');
     }
 
     /**
@@ -47,6 +55,7 @@ class TipomantenimientoController extends Controller
     public function show(tipomantenimiento $tipomantenimiento)
     {
         //
+        return view('tipomantenimiento.show');
     }
 
     /**
@@ -58,6 +67,7 @@ class TipomantenimientoController extends Controller
     public function edit(tipomantenimiento $tipomantenimiento)
     {
         //
+        return view('tipomantenimiento.edit');
     }
 
     /**
@@ -70,6 +80,11 @@ class TipomantenimientoController extends Controller
     public function update(Request $request, tipomantenimiento $tipomantenimiento)
     {
         //
+        $request->validate([
+            'nombre'=>'required'
+        ]);
+        $tipomantenimiento->fill($request->post())->save();
+        return to_route('tipomantenimiento.index')->with('success','Registro actualizado.');
     }
 
     /**
@@ -81,5 +96,7 @@ class TipomantenimientoController extends Controller
     public function destroy(tipomantenimiento $tipomantenimiento)
     {
         //
+        $tipomantenimiento->delete();
+        return to_route('tipomantenimiento.index')->with('success','Registro eliminado.');
     }
 }

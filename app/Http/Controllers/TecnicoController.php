@@ -15,6 +15,8 @@ class TecnicoController extends Controller
     public function index()
     {
         //
+        $tecnicos=Tecnico::orderBy('id','desc')->paginate(5);
+        return view('tecnico.index',compact('tecnicos'));
     }
 
     /**
@@ -25,6 +27,7 @@ class TecnicoController extends Controller
     public function create()
     {
         //
+        return view('tecnico.create');
     }
 
     /**
@@ -36,6 +39,12 @@ class TecnicoController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'nombre'=>'required'
+        ]);
+
+        Tecnico::create($request->post());
+        return to_route('tecnico.index')->with('success','Registro creado.');
     }
 
     /**
@@ -47,6 +56,7 @@ class TecnicoController extends Controller
     public function show(tecnico $tecnico)
     {
         //
+        return view('show.create',compact('tecnico'));
     }
 
     /**
@@ -58,6 +68,7 @@ class TecnicoController extends Controller
     public function edit(tecnico $tecnico)
     {
         //
+        return view('edit.create',compact('tecnico'));
     }
 
     /**
@@ -70,6 +81,12 @@ class TecnicoController extends Controller
     public function update(Request $request, tecnico $tecnico)
     {
         //
+        $request->validate([
+            'nombre'=>'required'
+        ]);
+
+        $tecnico->fill($request->post())->save();
+        return to_route('tecnico.index')->with('success','Registro actualizado.');
     }
 
     /**
@@ -81,5 +98,7 @@ class TecnicoController extends Controller
     public function destroy(tecnico $tecnico)
     {
         //
+        $tecnico->delete();
+        return to_route('tecnico.index')->with('success','Registro eliminado.');
     }
 }

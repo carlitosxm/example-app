@@ -1,7 +1,16 @@
 <?php
 
-use App\Http\Controllers\ChirpController;
-use App\Http\Controllers\EmpleadosController;
+use App\Http\Controllers\ChirpController; /*test*/
+use App\Http\Controllers\CategoriaController;/*test*/
+use App\Http\Controllers\DepartamentoController;/*test*/
+use App\Http\Controllers\EquipoController;/*test*/
+use App\Http\Controllers\EmpresaController;/*test*/
+use App\Http\Controllers\EquipoAsignadoController;/*test*/
+use App\Http\Controllers\OrdenTrabajoController;/*test*/
+use App\Http\Controllers\PersonalController;/*test*/
+use App\Http\Controllers\TecnicoController;/*test*/
+use App\Http\Controllers\TipomantenimientoController;/*test*/
+use App\Http\Controllers\EmpleadosController;/*test*/
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,7 +36,7 @@ Route::get('/name/{name}/lastname/{lastname}', function($name, $lastname ){
 });
 Route::resource('chirp', ChirpController::class);
 
-Route::resource('empleados', EmpleadosController::class);
+Route::resource('empleado', EmpleadosController::class);
 Route::resource('categoria',CategoriaController::class);
 Route::resource('departamento',Departamento::class);
 Route::resource('empleado',EmpleadoController::class);
@@ -37,7 +46,7 @@ Route::resource('equipo',EquipoController::class);
 Route::resource('ordentrabajo',OrdentrabajoController::class);
 Route::resource('personal',PersonalController::class);
 Route::resource('tecnico',TecnicoController::class);
-Route::resource('tipomantenimineto',TipomantenimientoController::class);
+Route::resource('tipomantenimiento',TipomantenimientoController::class);
 /*Route::resource('chirps', ChirpController::class)
     ->only(['index', 'store'])
     ->middleware(['auth', 'verified']);*/

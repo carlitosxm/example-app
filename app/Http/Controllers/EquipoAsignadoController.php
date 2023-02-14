@@ -15,6 +15,9 @@ class EquipoAsignadoController extends Controller
     public function index()
     {
         //
+        $equipo_asignados = Equipo_asignado::orderBy('id','desc')->paginate(5);
+
+        return view('equipoasignado.index',compact('equipo_asignados'));
     }
 
     /**
@@ -25,6 +28,7 @@ class EquipoAsignadoController extends Controller
     public function create()
     {
         //
+        return view('equipoasignado.create');
     }
 
     /**
@@ -36,6 +40,19 @@ class EquipoAsignadoController extends Controller
     public function store(Request $request)
     {
         //
+        $require->validate([
+            'equipo_id'=>'equipo_id',
+            'personal_id'=>'personal_id',
+            'empresa_id'=>'empresa_id',
+            'sn'=>'sn',
+            'imei'=>'imei',
+            'programas'=>'programas',
+            'novedades'=>'novedades',
+            'fecha_entrega'=>'fecha_entrega'
+        ]);
+
+        Equipo_asignado::create($request->post());
+        return to_route('equipoasignado.index')->with('success','Registro creado');
     }
 
     /**
@@ -47,6 +64,7 @@ class EquipoAsignadoController extends Controller
     public function show(Equipo_asignado $equipo_asignado)
     {
         //
+        return view('equipoasignado.show',compact('equipo_asignado'));
     }
 
     /**
@@ -58,6 +76,7 @@ class EquipoAsignadoController extends Controller
     public function edit(Equipo_asignado $equipo_asignado)
     {
         //
+        return view('equipoasignado.edit',compact('equipo_asignado'));
     }
 
     /**
@@ -70,6 +89,18 @@ class EquipoAsignadoController extends Controller
     public function update(Request $request, Equipo_asignado $equipo_asignado)
     {
         //
+        $request->validate([
+            'equipo_id'=>'equipo_id',
+            'personal_id'=>'personal_id',
+            'empresa_id'=>'empresa_id',
+            'sn'=>'sn',
+            'imei'=>'imei',
+            'programas'=>'programas',
+            'novedades'=>'novedades',
+            'fecha_entrega'=>'fecha_entrega'
+        ]);
+        $equipo_asignado->fill($request->post())->save();
+        return to_route('equipoasignado.index')->with('success','Registro actualizado');
     }
 
     /**
@@ -81,5 +112,7 @@ class EquipoAsignadoController extends Controller
     public function destroy(Equipo_asignado $equipo_asignado)
     {
         //
+        $equipo_asignado->delete();
+        return to_route('equipoasignado.index')->with('success','Registro eliminado');
     }
 }
