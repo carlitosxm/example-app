@@ -47,6 +47,6 @@ Route::resource('ordentrabajo',OrdentrabajoController::class);
 Route::resource('personal',PersonalController::class);
 Route::resource('tecnico',TecnicoController::class);
 Route::resource('tipomantenimiento',TipomantenimientoController::class);
-/*Route::resource('chirps', ChirpController::class)
+Route::resource('chirps', ChirpController::class);/*
     ->only(['index', 'store'])
     ->middleware(['auth', 'verified']);*/
