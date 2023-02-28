@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\tecnico;
+use App\Models\Tecnico;
 use Illuminate\Http\Request;
 
 class TecnicoController extends Controller
@@ -56,7 +56,7 @@ class TecnicoController extends Controller
     public function show(tecnico $tecnico)
     {
         //
-        return view('show.create',compact('tecnico'));
+        return view('tecnico.show',compact('tecnico'));
     }
 
     /**
@@ -68,7 +68,7 @@ class TecnicoController extends Controller
     public function edit(tecnico $tecnico)
     {
         //
-        return view('edit.create',compact('tecnico'));
+        return view('tecnico.edit',compact('tecnico'));
     }
 
     /**

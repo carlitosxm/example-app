@@ -12,7 +12,7 @@ class Equipo extends Model
     protected $fillable = ['categoria_id','modelo','description','fecha_adquisicion'];
 
     public function categoria(){
-        return $this->belongsto(Categorias::class);
+        return $this->belongsto(Categoria::class);
     }
 
     public function equipo_asignado(){

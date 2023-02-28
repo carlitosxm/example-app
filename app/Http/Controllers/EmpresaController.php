@@ -41,7 +41,8 @@ class EmpresaController extends Controller
     {
         //
         $request->validate([
-            'nombre'=>'nombre',
+            'nombre'=>'required',
+            'direccion'=>'required'
         ]);
 
         Empresa::create($request->post());
@@ -83,11 +84,12 @@ class EmpresaController extends Controller
     {
         //
          $request->validate([
-            'nombre'=>'nombre'
+            'nombre'=>'required',
+            'direccion'=>'required'
         ]);
 
         $empresa->fill($request->post())->save;
-        return route_to('empresa.index')->with('success','Registro actualizado');
+        return to_route('empresa.index')->with('success','Registro actualizado');
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Personal;
+use App\Models\Empresa;
+use App\Models\Departamento;
 use Illuminate\Http\Request;
 
 class PersonalController extends Controller
@@ -16,6 +18,10 @@ class PersonalController extends Controller
     {
         //
         $personals=Personal::orderBy('id','desc')->paginate(5);
+        $personals->each(function ($personals){
+            $personals->empresa;
+            $personals->departamento;
+        });
         return view('personal.index',compact('personals'));
     }
 
@@ -27,7 +33,9 @@ class PersonalController extends Controller
     public function create()
     {
         //
-        return view('personal.create');
+        $empresas=Empresa::all();
+        $departamentos=Departamento::all();
+        return view('personal.create',compact('empresas','departamentos'));
     }
 
     /**
@@ -47,9 +55,7 @@ class PersonalController extends Controller
         ]);
 
         Personal::create($request->post());
-
         return to_route('personal.index')->with('success','Registro creado.');
-
 
     }
 
@@ -62,6 +68,10 @@ class PersonalController extends Controller
     public function show(Personal $personal)
     {
         //
+        $personal->each(function($personal){
+            $personal->empresa;
+            $personal->departamento;
+        });
         return view('personal.show',compact('personal'));
     }
 
@@ -74,7 +84,9 @@ class PersonalController extends Controller
     public function edit(Personal $personal)
     {
         //
-        return view('edit.show',compact('personal'));
+        $empresas=Empresa::all();
+        $departamentos=Departamento::all();
+        return view('personal.edit',compact('personal','empresas','departamentos'));
     }
 
     /**
@@ -108,8 +120,8 @@ class PersonalController extends Controller
     public function destroy(Personal $personal)
     {
         //
-        $empleado->delete();
-        return redirect()->route('empleado.index')->with('success','Registro eliminado.');
+        $personal->delete();
+        return to_route('personal.index')->with('success','Registro eliminado.');
 
     }
 }

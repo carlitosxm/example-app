@@ -53,9 +53,10 @@ class CategoriaController extends Controller
      * @param  \App\Models\categorias  $categorias
      * @return \Illuminate\Http\Response
      */
-    public function show(categoria $categoria)
+    public function show($id)
     {
         //
+        $categoria=Categoria::find($id);
         return view('categoria.show',compact('categoria'));
     }
 
@@ -65,9 +66,10 @@ class CategoriaController extends Controller
      * @param  \App\Models\categorias  $categorias
      * @return \Illuminate\Http\Response
      */
-    public function edit(categoria $categoria)
+    public function edit($id)
     {
         //
+        $categoria=Categoria::find($id);
         return view('categoria.edit',compact('categoria'));
     }
 
@@ -78,13 +80,13 @@ class CategoriaController extends Controller
      * @param  \App\Models\categorias  $categorias
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, categoria $categoria)
+    public function update(Request $request, $id)
     {
         //
          $request->validate([
             'nombre' => 'required'
         ]);
-
+        $categoria=Categoria::find($id);
         $categoria->fill($request->post())->save();
         return to_route('categoria.index')->with('success','Actualziacion correcta');
     }
@@ -95,10 +97,11 @@ class CategoriaController extends Controller
      * @param  \App\Models\categorias  $categorias
      * @return \Illuminate\Http\Response
      */
-    public function destroy(categoria $categoria)
+    public function destroy($id)
     {
         //
+        $categoria=Categoria::find($id);
         $categoria->delete();
-        return route_to('categoria.index')->with('success','Dato eliminado con exito');
+        return to_route('categoria.index')->with('success','Dato eliminado con exito');
     }
 }

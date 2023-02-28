@@ -55,7 +55,7 @@ class TipomantenimientoController extends Controller
     public function show(tipomantenimiento $tipomantenimiento)
     {
         //
-        return view('tipomantenimiento.show');
+        return view('tipomantenimiento.show',compact('tipomantenimiento'));
     }
 
     /**
@@ -67,7 +67,7 @@ class TipomantenimientoController extends Controller
     public function edit(tipomantenimiento $tipomantenimiento)
     {
         //
-        return view('tipomantenimiento.edit');
+        return view('tipomantenimiento.edit',compact('tipomantenimiento'));
     }
 
     /**

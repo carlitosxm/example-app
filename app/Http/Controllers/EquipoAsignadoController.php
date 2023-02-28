@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipo_asignado;
+use App\Models\Equipo;
+use App\Models\Personal;
+use App\Models\Empresa;
 use Illuminate\Http\Request;
 
 class EquipoAsignadoController extends Controller
@@ -17,6 +20,19 @@ class EquipoAsignadoController extends Controller
         //
         $equipo_asignados = Equipo_asignado::orderBy('id','desc')->paginate(5);
 
+        $equipo_asignados->each(function($equipo_asignados)
+            {
+                $equipo_asignados->equipo;
+            });
+        $equipo_asignados->each(function($equipo_asignados)
+            {
+                $equipo_asignados->personal;
+            });
+        $equipo_asignados->each(function($equipo_asignados)
+            {
+                $equipo_asignados->empresa;
+            });
+
         return view('equipoasignado.index',compact('equipo_asignados'));
     }
 
@@ -28,7 +44,10 @@ class EquipoAsignadoController extends Controller
     public function create()
     {
         //
-        return view('equipoasignado.create');
+        $equipos=Equipo::all();
+        $personals=Personal::all();
+        $empresas=Empresa::all();
+        return view('equipoasignado.create',compact('equipos','personals','empresas'));
     }
 
     /**
@@ -40,15 +59,15 @@ class EquipoAsignadoController extends Controller
     public function store(Request $request)
     {
         //
-        $require->validate([
-            'equipo_id'=>'equipo_id',
-            'personal_id'=>'personal_id',
-            'empresa_id'=>'empresa_id',
-            'sn'=>'sn',
-            'imei'=>'imei',
-            'programas'=>'programas',
-            'novedades'=>'novedades',
-            'fecha_entrega'=>'fecha_entrega'
+        $request->validate([
+            'equipo_id'=>'required',
+            'personal_id'=>'required',
+            'empresa_id'=>'required',
+            'sn'=>'required',
+            'imei'=>'required',
+            'programas'=>'required',
+            'novedades'=>'required',
+            'fecha_entrega'=>'required'
         ]);
 
         Equipo_asignado::create($request->post());
@@ -61,9 +80,16 @@ class EquipoAsignadoController extends Controller
      * @param  \App\Models\Equipo_asignado  $equipo_asignado
      * @return \Illuminate\Http\Response
      */
-    public function show(Equipo_asignado $equipo_asignado)
+    public function show($id)
     {
         //
+        $equipo_asignado=Equipo_asignado::find($id);
+        $equipo_asignado->each(function($equipo_asignado)
+            {
+                $equipo_asignado->equipo;
+                $equipo_asignado->personal;
+                $equipo_asignado->empresa;
+            });
         return view('equipoasignado.show',compact('equipo_asignado'));
     }
 
@@ -73,10 +99,14 @@ class EquipoAsignadoController extends Controller
      * @param  \App\Models\Equipo_asignado  $equipo_asignado
      * @return \Illuminate\Http\Response
      */
-    public function edit(Equipo_asignado $equipo_asignado)
+    public function edit($id)
     {
         //
-        return view('equipoasignado.edit',compact('equipo_asignado'));
+        $equipos=Equipo::all();
+        $personals=Personal::all();
+        $empresas=Empresa::all();
+        $equipo_asignado=Equipo_asignado::find($id);
+        return view('equipoasignado.edit',compact('equipo_asignado','equipos','personals','empresas'));
     }
 
     /**
@@ -86,19 +116,20 @@ class EquipoAsignadoController extends Controller
      * @param  \App\Models\Equipo_asignado  $equipo_asignado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Equipo_asignado $equipo_asignado)
+    public function update(Request $request, $id)
     {
         //
         $request->validate([
-            'equipo_id'=>'equipo_id',
-            'personal_id'=>'personal_id',
-            'empresa_id'=>'empresa_id',
-            'sn'=>'sn',
-            'imei'=>'imei',
-            'programas'=>'programas',
-            'novedades'=>'novedades',
-            'fecha_entrega'=>'fecha_entrega'
+            'equipo_id'=>'required',
+            'personal_id'=>'required',
+            'empresa_id'=>'required',
+            'sn'=>'required',
+            'imei'=>'required',
+            'programas'=>'required',
+            'novedades'=>'required',
+            'fecha_entrega'=>'required'
         ]);
+        $equipo_asignado=Equipo_asignado::find($id);
         $equipo_asignado->fill($request->post())->save();
         return to_route('equipoasignado.index')->with('success','Registro actualizado');
     }

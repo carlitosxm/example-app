@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Laravel 9 CRUD Tutorial Example</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Categorias</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" >
 </head>
 <body>
     <div class="container mt-2">
         <div class="row">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
-                    <h2>Laravel 9 CRUD Example Tutorial</h2>
+                    <h2>Categorias</h2>
                 </div>
                 <div class="pull-right mb-2">
-                    <a class="btn btn-success" href="{{ route('empleados.create') }}"> Create Company</a>
+                    <a class="btn btn-success" href="{{ route('categoria.create') }}"> Nueva Categoria </a>
                 </div>
             </div>
         </div>
@@ -25,26 +25,20 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>S.No</th>
-                    <th>Empresa</th>
-                    <th>Name</th>
-                    <th>Apellido</th>
-                    <th>fecha</th>
+                    <th>C.No</th>
+                    <th>Categoria Nombre</th>
                     <th width="280px">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($empleados as $empleado)
+                @foreach ($categorias as $categoria)
                     <tr>
-                        <td>{{ $empleado->id }}</td>
-                        <td>{{ $empleado->chirp->name }}</td>
-                        <td>{{ $empleado->name }}</td>
-                        <td>{{ $empleado->apellido }}</td>
-                        <td>{{ $empleado->fecha }}</td>
+                        <td>{{ $categoria->id }}</td>
+                        <td>{{ $categoria->nombre }}</td>
                         <td>
-                            <form action="{{ route('empleados.destroy',$empleado->id) }}" method="Post">
-                                <a class="btn btn-primary" href="{{ route('empleados.edit',$empleado->id) }}">Edit</a>
-                                <a class="btn btn-primary" href="{{ route('empleados.show',$empleado->id) }}">Show</a>
+                            <form action="{{ route('categoria.destroy',$categoria->id) }}" method="Post">
+                                <a class="btn btn-primary" href="{{ route('categoria.edit',$categoria->id) }}">Edit {{$categoria->id}}</a>
+                                <a class="btn btn-primary" href="{{ route('categoria.show',$categoria->id) }}">Show</a>
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"  onclick="return confirm('Estás seguro que deseas eliminar el registro?')" >Delete</button>
@@ -54,7 +48,7 @@
                     @endforeach
             </tbody>
         </table>
-        {!! $empleados->links() !!}
+        {!! $categorias->links() !!}
     </div>
 </body>
 </html>

@@ -40,9 +40,9 @@ class DepartamentoController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate[(
-                'nombre'=>'nombre',
-        )];
+        $request->validate([
+                'nombre'=>'required',
+        ]);
 
         Departamento::create($request->post());
         return to_route('departamento.index')->with('success','Creado correctamente.');
@@ -83,7 +83,7 @@ class DepartamentoController extends Controller
     {
         //
         $request->validate([
-            'nombre'=>'nombre',
+            'nombre'=>'required',
         ]);
 
         $departamento->fill($request->post())->save;

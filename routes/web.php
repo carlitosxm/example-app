@@ -10,7 +10,7 @@ use App\Http\Controllers\OrdenTrabajoController;/*test*/
 use App\Http\Controllers\PersonalController;/*test*/
 use App\Http\Controllers\TecnicoController;/*test*/
 use App\Http\Controllers\TipomantenimientoController;/*test*/
-use App\Http\Controllers\EmpleadosController;/*test*/
+use App\Http\Controllers\EmpleadoController;/*test*/
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,9 +36,9 @@ Route::get('/name/{name}/lastname/{lastname}', function($name, $lastname ){
 });
 Route::resource('chirp', ChirpController::class);
 
-Route::resource('empleado', EmpleadosController::class);
+Route::resource('empleado', EmpleadoController::class);
 Route::resource('categoria',CategoriaController::class);
-Route::resource('departamento',Departamento::class);
+Route::resource('departamento',DepartamentoController::class);
 Route::resource('empleado',EmpleadoController::class);
 Route::resource('empresa',EmpresaController::class);
 Route::resource('equipoasignado',EquipoasignadoController::class);

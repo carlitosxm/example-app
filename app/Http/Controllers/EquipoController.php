@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipo;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 
 class EquipoController extends Controller
@@ -16,7 +17,11 @@ class EquipoController extends Controller
     {
         //
         $equipos = Equipo::orderBy('id','desc')->paginate(5);
+        $equipos->each(function($equipos){
+            $equipos->categoria;
+        });
         return view('equipo.index',compact('equipos'));
+        //dd($equipos);
     }
 
     /**
@@ -27,7 +32,8 @@ class EquipoController extends Controller
     public function create()
     {
         //
-        return view('equipo.create');
+        $categorias=Categoria::all();
+        return view('equipo.create',compact('categorias'));
     }
 
     /**
@@ -40,13 +46,13 @@ class EquipoController extends Controller
     {
         //
         $request->validate([
-            'categoria_id'=>'categoria_id',
-            'modelo'=>'modelo',
-            'description'=>'description',
-            'fecha_adquisicion'=>'fecha_adquisicion'
+            'categoria_id'=>'required',
+            'modelo'=>'required',
+            'description'=>'required',
+            'fecha_adquisicion'=>'required'
         ]);
         Equipo::create($request->post());
-        return view('equipo.index')->with('success','Registro creado');
+        return to_route('equipo.index')->with('success','Registro creado');
     }
 
     /**
@@ -58,6 +64,9 @@ class EquipoController extends Controller
     public function show(Equipo $equipo)
     {
         //
+        $equipo->each(function($equipo){
+            $equipo->categoria;
+        });
         return view('equipo.show',compact('equipo'));
     }
 
@@ -70,7 +79,8 @@ class EquipoController extends Controller
     public function edit(Equipo $equipo)
     {
         //
-        return view('equipo.edit',compact('equipo'));
+        $categorias=Categoria::all();
+        return view('equipo.edit',compact('equipo','categorias'));
     }
 
     /**
@@ -84,10 +94,10 @@ class EquipoController extends Controller
     {
         //
         $request->validate([
-            'categoria_id'=>'categoria_id',
-            'modelo'=>'modelo',
-            'description'=>'description',
-            'fecha_adquisicion'=>'fecha_adquisicion'
+            'categoria_id'=>'required',
+            'modelo'=>'required',
+            'description'=>'required',
+            'fecha_adquisicion'=>'required'
         ]);
         $equipo->fill($request->post())->save();
         return to_route('equipo.index')->with('success','Registro actualizado');
